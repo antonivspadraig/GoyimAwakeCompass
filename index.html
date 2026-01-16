@@ -31,7 +31,7 @@
 }
 
 .options label {
-  flex: 1 1 80px;           /* better responsiveness on small screens */
+  flex: 1 1 100px;           /* better responsiveness on small screens */
   text-align: center;
   padding: 12px 8px;
   background: #e8e8e8;      /* light gray – unselected state */
@@ -39,6 +39,7 @@
   cursor: pointer;
   transition: all 0.18s ease;
   font-weight: 500;
+  font-size: 0.8em;
   user-select: none;
   border: 1px solid #ccc;   /* subtle border for definition */
 }
@@ -214,20 +215,22 @@ function drawCompass(x, y) {
   svg.innerHTML += `<text x="${center}" y="${size-20}" font-size="32" font-weight="bold" text-anchor="middle" fill="#000">Anti-White</text>`;
 
   // X-axis labels - positioned further out + smaller font
-  svg.innerHTML += `<text x="60" y="${center + 35}" font-size="26" text-anchor="end" fill="#000">Antisemite</text>`;
-  svg.innerHTML += `<text x="${size-60}" y="${center + 35}" font-size="26" text-anchor="start" fill="#000">Philosemite</text>`;
+  svg.innerHTML += `<text x="25" y="${center + 35}" font-size="26" text-anchor="start" fill="#000">Philosemite</text>`;
+  svg.innerHTML += `<text x="${size-25}" y="${center + 35}" font-size="26" text-anchor="end" fill="#000">Antisemite</text>`;
 
   // Your position label & dot
-  const dotX = center + x * scale;
+  const dotX = center - x * scale;
   const dotY = center - y * scale;
 
   svg.innerHTML += `
-    <circle cx="${dotX}" cy="${dotY}" r="24" fill="red" stroke="black" stroke-width="4"/>
-    <text x="${dotX}" y="${dotY + 10}" fill="white" font-weight="bold" font-size="20" text-anchor="middle">YOU</text>
+    <circle cx="${dotX}" cy="${dotY}" r="14" fill="red" stroke="black" stroke-width="3"/>
+    <text x="${dotX}" y="${dotY + 10}" fill="white" font-weight="bold" font-size="20" text-anchor="middle"></text>
   `;
 
-  // Score labels - smaller & positioned inside
+  // Score labels - smaller & positioned inside with background
+  svg.innerHTML += `<rect x="${center - 55}" y="70" width="110" height="28" rx="4" fill="rgba(255,255,255,0.85)"/>`;
   svg.innerHTML += `<text x="${center}" y="90" font-size="22" text-anchor="middle" fill="#333">Y = ${y}/20</text>`;
+  svg.innerHTML += `<rect x="${center - 55}" y="${size-82}" width="110" height="28" rx="4" fill="rgba(255,255,255,0.85)"/>`;
   svg.innerHTML += `<text x="${center}" y="${size-60}" font-size="22" text-anchor="middle" fill="#333">X = ${x}/20</text>`;
 
   // Optional subtle grid
