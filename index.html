@@ -166,52 +166,49 @@ function drawCompass(x, y) {
 
   const size = 600;
   const center = size / 2;
-  const range = 20; // -20 to +20
-  const scale = (center - 40) / range;
+  const range = 20;
+  const scale = (center - 60) / range;  // more margin
 
-  // Background quadrants
+  // Quadrants (same as before)
   const quadSize = center - 20;
-
-  // Red quadrant (top-left)
   svg.innerHTML += `<rect x="20" y="20" width="${quadSize}" height="${quadSize}" fill="#ffcccc"/>`;
-  // Blue (top-right)
   svg.innerHTML += `<rect x="${center}" y="20" width="${quadSize}" height="${quadSize}" fill="#cce5ff"/>`;
-  // Green (bottom-left)
   svg.innerHTML += `<rect x="20" y="${center}" width="${quadSize}" height="${quadSize}" fill="#ccffcc"/>`;
-  // Purple (bottom-right)
   svg.innerHTML += `<rect x="${center}" y="${center}" width="${quadSize}" height="${quadSize}" fill="#e6ccff"/>`;
 
   // Axes
-  svg.innerHTML += `<line x1="20" y1="${center}" x2="${size-20}" y2="${center}" stroke="#000" stroke-width="3"/>`;
-  svg.innerHTML += `<line x1="${center}" y1="20" x2="${center}" y2="${size-20}" stroke="#000" stroke-width="3"/>`;
+  svg.innerHTML += `<line x1="20" y1="${center}" x2="${size-20}" y2="${center}" stroke="#000" stroke-width="4"/>`;
+  svg.innerHTML += `<line x1="${center}" y1="20" x2="${center}" y2="${size-20}" stroke="#000" stroke-width="4"/>`;
 
-  // Labels
-  svg.innerHTML += `<text x="${center}" y="40" font-size="28" font-weight="bold" text-anchor="middle">Pro-White</text>`;
-  svg.innerHTML += `<text x="${center}" y="${size-15}" font-size="28" font-weight="bold" text-anchor="middle">Anti-White</text>`;
-  svg.innerHTML += `<text x="40" y="${center+10}" font-size="24" text-anchor="end">Antisemite</text>`;
-  svg.innerHTML += `<text x="${size-40}" y="${center+10}" font-size="24" text-anchor="start">Philosemite</text>`;
+  // Main axis labels - short & bold
+  svg.innerHTML += `<text x="${center}" y="45" font-size="32" font-weight="bold" text-anchor="middle" fill="#000">Pro-White</text>`;
+  svg.innerHTML += `<text x="${center}" y="${size-20}" font-size="32" font-weight="bold" text-anchor="middle" fill="#000">Anti-White</text>`;
 
-  // Grid lines (optional subtle grid)
+  // X-axis labels - positioned further out + smaller font
+  svg.innerHTML += `<text x="60" y="${center + 35}" font-size="26" text-anchor="end" fill="#000">Antisemite</text>`;
+  svg.innerHTML += `<text x="${size-60}" y="${center + 35}" font-size="26" text-anchor="start" fill="#000">Philosemite</text>`;
+
+  // Your position label & dot
+  const dotX = center + x * scale;
+  const dotY = center - y * scale;
+
+  svg.innerHTML += `
+    <circle cx="${dotX}" cy="${dotY}" r="24" fill="red" stroke="black" stroke-width="4"/>
+    <text x="${dotX}" y="${dotY + 10}" fill="white" font-weight="bold" font-size="20" text-anchor="middle">YOU</text>
+  `;
+
+  // Score labels - smaller & positioned inside
+  svg.innerHTML += `<text x="${center}" y="90" font-size="22" text-anchor="middle" fill="#333">Y = ${y}/20</text>`;
+  svg.innerHTML += `<text x="${center}" y="${size-60}" font-size="22" text-anchor="middle" fill="#333">X = ${x}/20</text>`;
+
+  // Optional subtle grid
   for (let i = -range; i <= range; i += 5) {
     if (i === 0) continue;
     const px = center + i * scale;
     const py = center - i * scale;
-    svg.innerHTML += `<line x1="${px}" y1="20" x2="${px}" y2="${size-20}" stroke="#ddd" stroke-width="1" stroke-dasharray="4"/>`;
-    svg.innerHTML += `<line x1="20" y1="${py}" x2="${size-20}" y2="${py}" stroke="#ddd" stroke-width="1" stroke-dasharray="4"/>`;
+    svg.innerHTML += `<line x1="${px}" y1="20" x2="${px}" y2="${size-20}" stroke="#eee" stroke-width="1" stroke-dasharray="5"/>`;
+    svg.innerHTML += `<line x1="20" y1="${py}" x2="${size-20}" y2="${py}" stroke="#eee" stroke-width="1" stroke-dasharray="5"/>`;
   }
-
-  // Red dot
-  const dotX = center + x * scale;
-  const dotY = center - y * scale; // invert Y (up = positive)
-
-  svg.innerHTML += `
-    <circle cx="${dotX}" cy="${dotY}" r="18" fill="red" stroke="black" stroke-width="3"/>
-    <text x="${dotX}" y="${dotY+8}" fill="white" font-weight="bold" font-size="18" text-anchor="middle">YOU</text>
-  `;
-
-  // Score labels
-  svg.innerHTML += `<text x="${center}" y="80" font-size="22" text-anchor="middle">Y = ${y} / 20</text>`;
-  svg.innerHTML += `<text x="${center}" y="${size-50}" font-size="22" text-anchor="middle">X = ${x} / 20</text>`;
 }
 
 // ────────────────────────────────────────────────────────────────
